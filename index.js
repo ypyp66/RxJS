@@ -1,17 +1,14 @@
-import { fromEvent, range } from "rxjs";
-import { ajax } from "rxjs/ajax";
-import { scan, map, mergeMap, toArray, pluck, retry } from "rxjs/operators";
+import { from } from "rxjs";
 
-range(1, 20)
-  .pipe(
-    mergeMap(
-      (index) =>
-        ajax(`http://127.0.0.1:3000/people/quarter-error/${index}`).pipe(
-          pluck("response", "first_name"),
-          retry(3)
-        ),
-      4
-    ),
-    toArray()
-  )
-  .subscribe(console.log);
+const observable$ = from([1, 2, 3, 4, 5]);
+const observer = {
+  next: console.log,
+  error: (err) => console.error("발행중 오류", err),
+  complete: () => console.log("발행물 완결"),
+};
+observable$.subscribe(observer);
+observable$.subscribe(
+  console.log,
+  (err) => console.log(err),
+  (_) => console.log("완료")
+);

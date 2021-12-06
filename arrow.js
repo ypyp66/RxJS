@@ -1,6 +1,6 @@
 import { filter, fromEvent, map, pluck } from "rxjs";
 
-fromEvent(document, "keydown")
+export default fromEvent(document, "keydown")
   .pipe(
     pluck("key"),
     filter((k) => k.includes("Arrow")),
